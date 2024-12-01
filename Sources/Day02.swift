@@ -52,9 +52,14 @@ struct Day01: AdventDay {
       }.sorted().reversed()
     }()
     
+    var rightDict = [Int: Int]()
     
-    let rightDict = left.keyed { a in
-      right.count(where: { $0 == a })
+    for i in right {
+      if rightDict.keys.contains(i) {
+        rightDict[i]! += 1
+      } else {
+        rightDict[i] = 1
+      }
     }
     
     var total = 0
