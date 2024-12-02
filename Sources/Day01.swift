@@ -10,21 +10,23 @@ struct Day01: AdventDay {
       $0.split(separator: " ").compactMap { Int($0) }
     }
   }
+  
+  var left: [Int] {
+    entities.compactMap { a in
+      a[0]
+    }
+  }
+  
+  var right: [Int] {
+    entities.compactMap { a in
+      a[1]
+    }
+  }
 
   // Replace this with your solution for the first part of the day's challenge.
   func part1() -> Any {
-    
-    var left: [Int] = {
-      entities.compactMap { a in
-        a[0]
-      }.sorted().reversed()
-    }()
-    
-    var right: [Int] = {
-      entities.compactMap { a in
-        a[1]
-      }.sorted().reversed()
-    }()
+    var left: [Int] = left.sorted().reversed()
+    var right: [Int] = right.sorted().reversed()
     
     var total = 0
     
@@ -40,19 +42,6 @@ struct Day01: AdventDay {
 
   // Replace this with your solution for the second part of the day's challenge.
   func part2() -> Any {
-    let left: [Int] = {
-      entities.compactMap { a in
-        a[0]
-      }
-    }()
-    
-    let right: [Int] = {
-      entities.compactMap { a in
-        a[1]
-      }.sorted().reversed()
-    }()
-    
-    
     let rightDict = left.keyed { a in
       right.count(where: { $0 == a })
     }
