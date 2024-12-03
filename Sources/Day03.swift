@@ -7,18 +7,7 @@ struct Day03: AdventDay {
 
   // Replace this with your solution for the first part of the day's challenge.
   func part1() -> Any {
-    let regex = Regex {
-      "mul("
-      Capture {
-        OneOrMore(("0"..."9"))
-      }
-      ","
-      Capture {
-        OneOrMore(("0"..."9"))
-      }
-      ")"
-    }
-    .anchorsMatchLineEndings()
+    let regex = /mul\(([0-9]+),([0-9]+)\)/
     
     var total = 0
     
@@ -31,28 +20,7 @@ struct Day03: AdventDay {
 
   // Replace this with your solution for the second part of the day's challenge.
   func part2() -> Any {
-   let regex = Regex {
-     ChoiceOf {
-       Regex {
-         "mul("
-         Capture {
-           OneOrMore(("0"..."9"))
-         }
-         ","
-         Capture {
-           OneOrMore(("0"..."9"))
-         }
-         ")"
-       }
-       Capture {
-         "do()"
-       }
-       Capture {
-         "don't()"
-       }
-     }
-   }
-   .anchorsMatchLineEndings()
+   let regex = /mul\(([0-9]+),([0-9]+)\)|(do\(\))|(don't\(\))/
 
     var total = 0
     
