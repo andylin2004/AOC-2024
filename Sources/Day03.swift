@@ -7,7 +7,7 @@ struct Day03: AdventDay {
 
   // Replace this with your solution for the first part of the day's challenge.
   func part1() -> Any {
-    let regex = /mul\(([0-9]+),([0-9]+)\)/
+    let regex = /mul\((\d+),(\d+)\)/
     
     var total = 0
     
@@ -20,7 +20,7 @@ struct Day03: AdventDay {
 
   // Replace this with your solution for the second part of the day's challenge.
   func part2() -> Any {
-   let regex = /mul\(([0-9]+),([0-9]+)\)|(do\(\))|(don't\(\))/
+   let regex = /mul\((\d+),(\d+)\)|(do\(\))|(don't\(\))/
 
     var total = 0
     
