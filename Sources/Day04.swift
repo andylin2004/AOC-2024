@@ -18,7 +18,7 @@ struct Day04: AdventDay {
       for row in 0..<grid.count {
         for col in 0..<grid[0].count {
           group.addTask {
-            return seeIfXmasDirectionsMatch(row, col)
+            return await seeIfXmasDirectionsMatch(row, col)
           }
         }
       }
@@ -30,47 +30,41 @@ struct Day04: AdventDay {
     
     return total
     
-    func seeIfXmasDirectionsMatch(_ row: Int, _ col: Int) -> Int {
+    func seeIfXmasDirectionsMatch(_ row: Int, _ col: Int) async -> Int {
       var total = 0
-      if 3 <= row {
-        if (grid[row][col] == "X" && grid[row - 1][col] == "M" && grid[row - 2][col] == "A" && grid[row - 3][col] == "S"){
-          total += 1
+      
+      await withTaskGroup(of: Bool.self) { group in
+        if 3 <= row {
+          group.addTask {
+            return (grid[row][col] == "X" && grid[row - 1][col] == "M" && grid[row - 2][col] == "A" && grid[row - 3][col] == "S")
+          }
+          group.addTask {
+            return 3 <= col && (grid[row][col] == "X" && grid[row - 1][col - 1] == "M" && grid[row - 2][col - 2] == "A" && grid[row - 3][col - 3] == "S")
+          }
+          group.addTask {
+            return col <= grid[0].count - 4 && (grid[row][col] == "X" && grid[row - 1][col + 1] == "M" && grid[row - 2][col + 2] == "A" && grid[row - 3][col + 3] == "S")
+          }
+        }
+        group.addTask {
+          return 3 <= col && (grid[row][col] == "X" && grid[row][col - 1] == "M" && grid[row][col - 2] == "A" && grid[row][col - 3] == "S")
+        }
+        if row <= grid.count - 4 {
+          group.addTask {
+            return (grid[row][col] == "X" && grid[row + 1][col] == "M" && grid[row + 2][col] == "A" && grid[row + 3][col] == "S")
+          }
+          group.addTask {
+            return 3 <= col && grid[row][col] == "X" && grid[row + 1][col - 1] == "M" && grid[row + 2][col - 2] == "A" && grid[row + 3][col - 3] == "S"
+          }
+          group.addTask {
+            return col <= grid[0].count - 4 && (grid[row][col] == "X" && grid[row + 1][col + 1] == "M" && grid[row + 2][col + 2] == "A" && grid[row + 3][col + 3] == "S")
+          }
+        }
+        group.addTask {
+         return col <= grid[0].count - 4 && (grid[row][col] == "X" && grid[row][col + 1] == "M" && grid[row][col + 2] == "A" && grid[row][col + 3] == "S")
         }
         
-        if 3 <= col {
-          if (grid[row][col] == "X" && grid[row - 1][col - 1] == "M" && grid[row - 2][col - 2] == "A" && grid[row - 3][col - 3] == "S") {
-            total += 1
-          }
-        }
-        if col <= grid[0].count - 4 {
-          if (grid[row][col] == "X" && grid[row - 1][col + 1] == "M" && grid[row - 2][col + 2] == "A" && grid[row - 3][col + 3] == "S") {
-            total += 1
-          }
-        }
-      }
-      if 3 <= col {
-        if (grid[row][col] == "X" && grid[row][col - 1] == "M" && grid[row][col - 2] == "A" && grid[row][col - 3] == "S") {
-          total += 1
-        }
-      }
-      if row <= grid.count - 4 {
-        if (grid[row][col] == "X" && grid[row + 1][col] == "M" && grid[row + 2][col] == "A" && grid[row + 3][col] == "S") {
-          total += 1
-        }
-        if 3 <= col {
-          if (grid[row][col] == "X" && grid[row + 1][col - 1] == "M" && grid[row + 2][col - 2] == "A" && grid[row + 3][col - 3] == "S") {
-            total += 1
-          }
-        }
-        if col <= grid[0].count - 4 {
-          if (grid[row][col] == "X" && grid[row + 1][col + 1] == "M" && grid[row + 2][col + 2] == "A" && grid[row + 3][col + 3] == "S") {
-            total += 1
-          }
-        }
-      }
-      if col <= grid[0].count - 4 {
-        if (grid[row][col] == "X" && grid[row][col + 1] == "M" && grid[row][col + 2] == "A" && grid[row][col + 3] == "S") {
-          total += 1
+        for await value in group {
+          total += value ? 1 : 0
         }
       }
       
