@@ -7,6 +7,13 @@ import Testing
 struct Day22Tests {
   // Smoke test data provided in the challenge question
   let testData = """
+  1
+  10
+  100
+  2024
+  """
+  
+  let testData2 = """
     1
     2
     3
@@ -19,7 +26,7 @@ struct Day22Tests {
   }
 
   @Test func testPart2() async throws {
-    let challenge = Day22(data: testData)
+    let challenge = Day22(data: testData2)
     await #expect(String(describing: challenge.part2()) == "23")
   }
 }
